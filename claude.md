@@ -16,3 +16,6 @@ Write a session summary: what was done, what's next, any blockers found.
 - Never break the ?client=slug personalization mechanic. It is the core of the demo flow.
 - If you update any dependencies or CDN versions, document it in planning.md.
 - All placeholder values (STRIPE_LINKS, SCHEDULING_LINK) are clearly marked TODO in aic-sections.jsx. Do not invent values. Leave them until the client provides real links.
+- All prompts and dev instructions must be written inside a code block (copy-paste container). No exceptions.
+- Docs updates (claude.md, planning.md, tasks.md) are written once at the end of a session only — never mid-session.
+- Do not prescribe exact code fixes. Give problem statements. The developer decides implementation.
