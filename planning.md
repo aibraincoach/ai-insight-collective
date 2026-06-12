@@ -10,7 +10,7 @@ aiinsight.us — Vercel Pro, Cloudflare DNS
 
 ## Stack
 - Pure static HTML + JSX (no build step)
-- React 18.3.1 via CDN (unpkg)
+- React 18.3.1 via CDN (unpkg) — production builds (`react.production.min.js`, `react-dom.production.min.js`)
 - Babel standalone via CDN (in-browser JSX transform)
 - Tailwind CSS via CDN
 - Google Fonts: Inter + Instrument Serif

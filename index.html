@@ -41,8 +41,8 @@
     requestAnimationFrame(tick);
   })();
 </script>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -53,8 +53,6 @@ const { useState, useEffect, useRef, useCallback } = React;
 
 /* ══════════════════════════════════════════════════════════
    FitSite — scales a 1024×640 canvas to fill its container.
-   Uses rAF polling until size is stable AND ≠ 1024×640
-   (avoids Tailwind CDN async injection trap).
    ══════════════════════════════════════════════════════════ */
 function FitSite({ children }) {
   const ref = useRef(null);
@@ -62,25 +60,12 @@ function FitSite({ children }) {
   React.useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let cancelled = false, raf = null, last = -1, stable = 0;
-    const tids = [];
-    const measure = () => {
+    const observer = new ResizeObserver(() => {
       const w = el.clientWidth;
       if (w) setScale(w / 1024);
-      return w;
-    };
-    const poll = () => {
-      if (cancelled) return;
-      const w = el.clientWidth;
-      if (w && w === last) { stable++; measure(); if (stable > 5) return; }
-      else { stable = 0; last = w; measure(); }
-      raf = requestAnimationFrame(poll);
-    };
-    poll();
-    [80, 250, 700].forEach((ms) => tids.push(setTimeout(() => { if (!cancelled) measure(); }, ms)));
-    const onResize = () => measure();
-    window.addEventListener("resize", onResize);
-    return () => { cancelled = true; if (raf) cancelAnimationFrame(raf); tids.forEach(clearTimeout); window.removeEventListener("resize", onResize); };
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
   return (
     <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
@@ -265,7 +250,7 @@ function CompareSlider() {
           <button
             style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 36, height: 36, borderRadius: "50%", background: "#fff", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.4)", cursor: dragging ? "grabbing" : "grab", pointerEvents: "auto" }}
             onPointerDown={(e) => { e.stopPropagation(); userTookOver.current = true; setDragging(true); wake(); }}
-            onKeyDown={(e) => { if (e.key === "ArrowLeft") { setPos((p) => Math.max(0, p - 4)); wake(); } if (e.key === "ArrowRight") { setPos((p) => Math.min(100, p + 4)); wake(); } }}
+            onKeyDown={(e) => { if (e.key === "ArrowLeft") { e.preventDefault(); setPos((p) => Math.max(0, p - 4)); wake(); } if (e.key === "ArrowRight") { e.preventDefault(); setPos((p) => Math.min(100, p + 4)); wake(); } }}
             aria-label="Drag to compare" role="slider" aria-valuenow={Math.round(pos)} aria-valuemin="0" aria-valuemax="100"
           >
             <svg width="5" height="8" viewBox="0 0 6 9" aria-hidden="true"><path d="M6 0 L0 4.5 L6 9 Z" fill="#1d1d1f"></path></svg>
@@ -347,23 +332,21 @@ function BigPanel({ children, design = 880 }) {
   const [s, setS] = useState(1);
   const [h, setH] = useState(null);
   React.useLayoutEffect(() => {
-    let cancelled = false, raf = null, n = 0;
-    const measure = () => {
-      const o = outerRef.current, inn = innerRef.current;
-      if (!o || !inn) return;
-      const w = o.clientWidth;
+    const outer = outerRef.current;
+    const inner = innerRef.current;
+    if (!outer || !inner) return;
+    const observer = new ResizeObserver(() => {
+      const w = outer.clientWidth;
       if (w) {
         const scale = w / design;
         setS(scale);
-        setH(inn.offsetHeight * scale);
+        setH(inner.offsetHeight * scale);
       }
-    };
-    const poll = () => { if (cancelled || n++ > 90) return; measure(); raf = requestAnimationFrame(poll); };
-    poll();
-    const onResize = () => measure();
-    window.addEventListener("resize", onResize);
-    return () => { cancelled = true; if (raf) cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
-  }, []);
+    });
+    observer.observe(outer);
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, [design]);
   return (
     <div ref={outerRef} style={{ width: "100%", height: h || "auto", overflow: "visible" }}>
       <div ref={innerRef} style={{ width: design, transform: "scale(" + s + ")", transformOrigin: "top left" }}>
@@ -443,9 +426,7 @@ function App() {
       <div style={{ position: "relative" }}>
         {/* Sticky forest — fills viewport and holds while content scrolls over it */}
         <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", zIndex: 0 }}>
-          <video autoPlay loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="assets/nexora-hero.mp4"
-            ref={(el) => { if (el) { el.muted = true; el.play().catch(() => {}); } }}
-          ></video>
+          <video autoPlay loop playsInline muted style={{ width: "100%", height: "100%", objectFit: "cover" }} src="assets/nexora-hero.mp4"></video>
         </div>
 
         {/* Content scrolls over the standing forest */}
