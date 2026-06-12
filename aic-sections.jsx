@@ -13,6 +13,12 @@ const STRIPE_LINKS = {
 };
 const SCHEDULING_LINK = "#"; // TODO: real scheduling link (Cal.com / Calendly)
 
+function formatMostRecentMonday() {
+  const d = new Date();
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+  return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+}
+
 /* ══════════ PLAN CARDS (forest section — the three buy buttons) ══════════
    Pricing amounts also live in TIERS below — keep both in sync when prices or Stripe links change. */
 const PLAN_CARDS = [
@@ -144,7 +150,7 @@ function MondayBriefing() {
         <div style={{ background: "#fff", borderRadius: 16, overflow: "hidden", boxShadow: "0 40px 100px -20px rgba(0,0,0,0.6)" }}>
           <div style={{ padding: "18px 22px", borderBottom: "1px solid " + AIC_LINE }}>
             <p style={{ fontSize: 12, color: AIC_SUB, margin: 0 }}>From: <span style={{ color: AIC_INK, fontWeight: 500 }}>AI Insight Collective &lt;brief@aiinsight.us&gt;</span></p>
-            <p style={{ fontSize: 14.5, fontWeight: 600, color: AIC_INK, margin: "7px 0 0" }}>Your week at a glance — Monday, June 9</p>
+            <p style={{ fontSize: 14.5, fontWeight: 600, color: AIC_INK, margin: "7px 0 0" }}>Your week at a glance — {formatMostRecentMonday()}</p>
           </div>
           <div style={{ padding: "20px 22px" }}>
             <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: AIC_SUB, margin: 0 }}>This week's three things</p>

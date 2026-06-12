@@ -87,7 +87,7 @@ function FitSite({ children }) {
 /* ── OLD: WordPress Business Association look for Bright Blocks ── */
 function OldSite() {
   return (
-    <div className="w-full h-full overflow-hidden select-none" style={{ background: "#f0f0f0", fontFamily: "'Arial', sans-serif" }}>
+    <div aria-hidden="true" className="w-full h-full overflow-hidden select-none" style={{ background: "#f0f0f0", fontFamily: "'Arial', sans-serif" }}>
       {/* Header */}
       <div style={{ background: "linear-gradient(135deg, #1a4b7a 0%, #0d2f52 100%)", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
@@ -137,7 +137,7 @@ function NewSite() {
   const C = { green: "#2dc424", pink: "#f0328c", orange: "#f59e0b", blue: "#1a87c5", purple: "#6b21d4" };
   const logoColors = [C.orange, C.blue, C.pink, C.green, C.orange, C.purple];
   return (
-    <div style={{ width: "100%", height: "100%", overflow: "hidden", background: "#fff", fontFamily: "'Inter','Arial Black',sans-serif", userSelect: "none" }}>
+    <div aria-hidden="true" style={{ width: "100%", height: "100%", overflow: "hidden", background: "#fff", fontFamily: "'Inter','Arial Black',sans-serif", userSelect: "none" }}>
       {/* Nav */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 36px", borderBottom: "1.5px solid #e5e5e5" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -430,7 +430,7 @@ function App() {
       <div style={{ position: "relative" }}>
         {/* Sticky forest — fills viewport and holds while content scrolls over it */}
         <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", zIndex: 0 }}>
-          <video autoPlay loop playsInline muted style={{ width: "100%", height: "100%", objectFit: "cover" }} src="assets/nexora-hero.mp4"></video>
+          <video autoPlay loop playsInline muted poster="assets/forest-poster.jpg" style={{ width: "100%", height: "100%", objectFit: "cover" }} src="assets/nexora-hero.mp4"></video>
         </div>
 
         {/* Content scrolls over the standing forest */}
