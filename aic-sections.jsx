@@ -13,7 +13,8 @@ const STRIPE_LINKS = {
 };
 const SCHEDULING_LINK = "#"; // TODO: real scheduling link (Cal.com / Calendly)
 
-/* ══════════ PLAN CARDS (forest section — the three buy buttons) ══════════ */
+/* ══════════ PLAN CARDS (forest section — the three buy buttons) ══════════
+   Pricing amounts also live in TIERS below — keep both in sync when prices or Stripe links change. */
 const PLAN_CARDS = [
   {
     key: "see", name: "See", price: "$249", setup: "$1,200 setup",
@@ -166,7 +167,8 @@ function MondayBriefing() {
   );
 }
 
-/* ══════════ PRICING ══════════ */
+/* ══════════ PRICING ══════════
+   Tier amounts also live in PLAN_CARDS above — keep both in sync when prices or Stripe links change. */
 const TIERS = [
   {
     name: "See", tagline: "Your numbers, finally in one place.", price: "$249/mo", setup: "+ $1,200 setup",
