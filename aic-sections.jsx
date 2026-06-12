@@ -119,7 +119,7 @@ function PainSelector() {
         </div>
 
         {/* Nudge */}
-        <p style={{ marginTop: 40, fontSize: 14.5, color: AIC_SUB }}>That answer above? That's a real briefing. You'd get one every Monday without opening a single dashboard.</p>
+        <p style={{ marginTop: 40, fontSize: 14.5, color: AIC_SUB }}>That answer above? That's a sample briefing. You'd get one every Monday without opening a single dashboard.</p>
         <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", marginTop: 18, borderRadius: 100, background: AIC_INK, color: "#fff", fontSize: 14, fontWeight: 600, padding: "13px 28px", cursor: "pointer" }}>Get your dashboard</a>
       </div>
     </section>
@@ -129,7 +129,7 @@ function PainSelector() {
 /* ══════════ MONDAY BRIEFING ══════════ */
 const BRIEF_INSIGHTS = [
   "Your LinkedIn is outperforming Google this week — by a lot. Consider posting more case studies.",
-  "Two inquiries came from the Stephen Avenue article. It's still circulating. Don't let it die.",
+  "Two inquiries came from the downtown feature article. It's still circulating. Don't let it die.",
   "Your pricing page lost 41% of visitors before they reached the form. This needs fixing now.",
 ];
 
