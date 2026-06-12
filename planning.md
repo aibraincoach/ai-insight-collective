@@ -1,34 +1,53 @@
-# planning.md — Architecture, Decisions, Parking Lot
+# AI Insight Collective — Architecture
 
-## Architecture
-- **React + Vite** marketing site. React Router for pages. Vercel builds `dist/`.
-- Hosting: Vercel (Pro account exists). Raj reconnects repo after fresh start.
-- DNS: Cloudflare. aiinsight.us A/CNAME to Vercel per Vercel domain docs.
-- Contact form: POST to `/api/contact.js` serverless function, forwards to email.
+## What this is
+A static marketing site for AI Insight Collective, a done-for-you business intelligence platform targeting local retailers, BIAs, nonprofits, and multi-location owners.
 
-## Decisions log
-| # | Decision | Why |
-|---|---|---|
-| 1 | No Supabase in v1 | Marketing site has no data. Database = drift. Supabase belongs to the actual product, later. |
-| 2 | Multi-page over one-pager | GCP reviewer needs "fully built-out website." Multi-page + legal pages reads as a real company. |
-| 3 | /demo route with fake client data | Generates the required screenshots and doubles as a live sales demo. |
-| 4 | Real pricing numbers on the site | Self-serve-looking pricing signals product, not consulting. |
-| 5 | USD only, Delaware footer | Stripe account protection. Canadian identity deferred to a separate domain. |
-| 6 | Skip H0 hackathon for this project | Stack mismatch (v0 + AWS) and timeline contamination. Fitness coach is the better entry if any. |
-| 7 | Vercel over Cloudflare Pages for hosting | Already paying for Pro, known workflow, serverless functions trivial. Cloudflare stays DNS-only. |
-| 8 | React + Vite (not static HTML) | Product owner directive. Prior static HTML and first React attempt rejected — brand did not meet bar. |
-| 9 | Repo deleted and recreated Jun 2026 | Prior PRs (#2, #3) rejected. Docs-only seed until design re-approved. |
+The pitch: free/low-cost website rebuild gets clients in the door. Recurring AI-powered intelligence dashboard keeps them. The real product is the Monday morning briefing — three plain-English insights at 6 AM, no dashboard required.
 
-## Risks
-- **Blocker risk:** brand/design approval — no code ships until Raj signs off on visual direction.
-- **Blocker risk:** founder content (headshot, bio, socials, address) — only Raj can supply.
-- **Credibility risk:** screenshots that look fake. Mitigation: /demo gets real design effort, plausible numbers, consistent fictional client.
-- **Drift risk:** temptation to start building the real dashboard product inside this repo. The product is a separate repo. This repo is marketing only.
+## Live domain
+aiinsight.us — Vercel Pro, Cloudflare DNS
 
-## v2 parking lot (do not touch in v1)
-- Canadian-friendly domain + geo-dynamic pricing/entity display
-- Supabase-backed Insight Dashboard product (separate repo)
-- Stripe self-serve checkout
-- Case studies page (after first 2–3 real clients)
-- Blog / SEO content
-- Cold-outreach landing page variants per prospect
+## Stack
+- Pure static HTML + JSX (no build step)
+- React 18.3.1 via CDN (unpkg) — production builds (`react.production.min.js`, `react-dom.production.min.js`)
+- Babel standalone via CDN (in-browser JSX transform)
+- Tailwind CSS via CDN
+- Google Fonts: Inter + Instrument Serif
+- Hosted on Vercel (static site, zero config)
+
+## File structure
+```
+/
+├── index.html                   (main app shell + component logic)
+├── aic-sections.jsx             (PainSelector, MondayBriefing, PricingSection, CTASection, AICFooter, PlanCard)
+├── assets/
+│   ├── brightblocks-dashboard.jpg
+│   ├── brightblocks-new.jpg
+│   └── nexora-hero.mp4
+├── claude.md
+├── planning.md
+└── tasks.md
+```
+
+## Key mechanics
+
+### ?client=slug personalization
+A query string mechanic that loads a pre-built version of the site with a specific client's data pre-populated. Scaffolded but not fully wired. CLIENT_REGISTRY lives in the HTML file. Needs to be applied to:
+- CompareSlider (swap before/after images per client)
+- NexoraDashboard (swap dashboard image per client)
+
+### Payment links
+Three Stripe payment links defined at the top of aic-sections.jsx as STRIPE_LINKS constants. Currently set to #pricing placeholder. Client will provide real links.
+
+### Scheduling link
+SCHEDULING_LINK constant in aic-sections.jsx. Currently #. Client will provide.
+
+## Pricing tiers
+- See: $249/mo + $1,200 setup
+- Know: $499/mo + $2,000 setup  
+- Act: $899/mo + $2,500 setup
+
+## Products
+- AI Insight Collective dashboard: ACTIVE
+- Nihon Ninja: SHELVED

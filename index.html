@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Insight Collective</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; color: #1d1d1f; }
+  .font-serif { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+  /* Transform-only entrance — opacity is NEVER animated, so a frozen animation clock can't hide content */
+  @keyframes riseIn { from { transform: translateY(16px); } to { transform: translateY(0); } }
+  .rise { opacity: 1; }
+  html.anim .rise { animation: riseIn 0.75s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  html.anim .d1 { animation-delay: 0.05s; } html.anim .d2 { animation-delay: 0.15s; }
+  html.anim .d3 { animation-delay: 0.25s; } html.anim .d4 { animation-delay: 0.38s; }
+
+  /* Plan cards — transform-only, same rule as .rise */
+  @keyframes cardRiseIn { from { transform: translateY(12px); } to { transform: translateY(0); } }
+  .card-anim { opacity: 1; }
+  .in-view .card-anim { animation: cardRiseIn 0.7s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .in-view .card-anim:nth-child(1) { animation-delay: 0.1s; }
+  .in-view .card-anim:nth-child(2) { animation-delay: 0.22s; }
+  .in-view .card-anim:nth-child(3) { animation-delay: 0.34s; }
+
+  .slider-bezel { width: min(92vw, 740px); margin: 0 auto; }
+  @media (min-width: 900px) { .slider-bezel { width: min(60vw, 740px); } }
+
+  @media (prefers-reduced-motion: reduce) { .rise, .card-anim { animation: none; } }
+</style>
+<script>
+  /* Enable entrance animations only after PROOF the animation clock advances (two rAF ticks with increasing timestamps) */
+  (function () {
+    var first = null;
+    function tick(ts) {
+      if (first === null) { first = ts; requestAnimationFrame(tick); }
+      else if (ts > first) { document.documentElement.classList.add("anim"); }
+      /* same timestamp or never fires → frozen timeline → leave content static & visible */
+    }
+    requestAnimationFrame(tick);
+  })();
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="aic-sections.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ══════════════════════════════════════════════════════════
+   FitSite — scales a 1024×640 canvas to fill its container.
+   ══════════════════════════════════════════════════════════ */
+function FitSite({ children }) {
+  const ref = useRef(null);
+  const [scale, setScale] = useState(0);
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => {
+      const w = el.clientWidth;
+      if (w) setScale(w / 1024);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: 1024, height: 640, transform: "scale(" + scale + ")", transformOrigin: "top left", visibility: scale ? "visible" : "hidden" }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOCK SITES for the before/after slider
+   ══════════════════════════════════════════════════════════ */
+
+/* ── OLD: WordPress Business Association look for Bright Blocks ── */
+function OldSite() {
+  return (
+    <div aria-hidden="true" className="w-full h-full overflow-hidden select-none" style={{ background: "#f0f0f0", fontFamily: "'Arial', sans-serif" }}>
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #1a4b7a 0%, #0d2f52 100%)", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ color: "#fff", fontSize: 22, fontWeight: 700, letterSpacing: 1 }}>BRIGHT BLOCKS</div>
+          <div style={{ color: "#aac8e8", fontSize: 11, marginTop: 2 }}>Block Revitalization | Calgary, AB</div>
+        </div>
+        <div style={{ color: "#fff", fontSize: 12, textAlign: "right" }}>
+          <div style={{ color: "#aac8e8" }}>Call Us Today</div>
+          <div style={{ fontSize: 16, fontWeight: 700 }}>(403) 617-8007</div>
+        </div>
+      </div>
+      {/* Nav */}
+      <div style={{ background: "#2a6099", display: "flex", gap: 0 }}>
+        {["Home","About Us","Services","Gallery","Events","Contact"].map((l, i) => (
+          <span key={l} style={{ color: "#fff", fontSize: 12, fontWeight: i === 0 ? 700 : 400, padding: "9px 16px", background: i === 0 ? "#1a4b7a" : "transparent", borderRight: "1px solid rgba(255,255,255,0.15)", cursor: "pointer" }}>{l}</span>
+        ))}
+      </div>
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(rgba(10,30,60,0.62),rgba(10,30,60,0.62)), #4a7090", height: 180, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 40px", textAlign: "center" }}>
+        <div style={{ color: "#fff", fontSize: 26, fontWeight: 700, textShadow: "1px 2px 4px rgba(0,0,0,0.5)" }}>Revitalizing Calgary's Commercial Blocks</div>
+        <div style={{ color: "#cde", fontSize: 13, marginTop: 8 }}>Clean streets. Active programming. Measurable results.</div>
+        <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+          <span style={{ background: "#2a6099", color: "#fff", fontSize: 12, fontWeight: 700, padding: "8px 20px", borderRadius: 3, cursor: "pointer" }}>Learn More</span>
+          <span style={{ background: "transparent", color: "#fff", fontSize: 12, fontWeight: 700, padding: "7px 20px", borderRadius: 3, border: "2px solid #fff", cursor: "pointer" }}>Contact Us</span>
+        </div>
+      </div>
+      {/* Services row */}
+      <div style={{ display: "flex", gap: 12, padding: "18px 24px" }}>
+        {[{ t: "Clean + Safe", d: "Daily crews keep your block free of waste, graffiti, and visible disorder." }, { t: "Festivals & Events", d: "Pop-up programming and event support that bring people to the block." }, { t: "Intelligence", d: "Foot-traffic data and cleanliness reporting built for board presentations." }].map((s) => (
+          <div key={s.t} style={{ flex: 1, background: "#fff", border: "1px solid #ddd", borderTop: "3px solid #2a6099", padding: "14px 16px", borderRadius: 2 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#1a4b7a", marginBottom: 6 }}>{s.t}</div>
+            <div style={{ fontSize: 11, color: "#555", lineHeight: 1.6 }}>{s.d}</div>
+            <div style={{ marginTop: 8, fontSize: 11, color: "#2a6099", textDecoration: "underline", cursor: "pointer" }}>Read more »</div>
+          </div>
+        ))}
+      </div>
+      {/* Footer */}
+      <div style={{ background: "#222", color: "#aaa", fontSize: 10, textAlign: "center", padding: "12px 0", marginTop: "auto" }}>
+        © 2024 Bright Blocks Operations Inc. &nbsp;|&nbsp; Calgary, AB &nbsp;|&nbsp; (403) 617-8007 &nbsp;|&nbsp; hello@brightblocks.ca
+      </div>
+    </div>
+  );
+}
+
+/* ── NEW: Real Bright Blocks site recreation ── */
+function NewSite() {
+  const C = { green: "#2dc424", pink: "#f0328c", orange: "#f59e0b", blue: "#1a87c5", purple: "#6b21d4" };
+  const logoColors = [C.orange, C.blue, C.pink, C.green, C.orange, C.purple];
+  return (
+    <div aria-hidden="true" style={{ width: "100%", height: "100%", overflow: "hidden", background: "#fff", fontFamily: "'Inter','Arial Black',sans-serif", userSelect: "none" }}>
+      {/* Nav */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 36px", borderBottom: "1.5px solid #e5e5e5" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <svg width="32" height="36" viewBox="0 0 40 46" fill="none" aria-hidden="true">
+            <path d="M20 1 L37 7 V24 C37 35 29 43 20 46 C11 43 3 35 3 24 V7 Z" fill="#f3f3f3" stroke="#ddd" strokeWidth="1"></path>
+            <rect x="8" y="13" width="11" height="9" rx="1" fill={C.green}></rect>
+            <rect x="21" y="13" width="11" height="9" rx="1" fill={C.orange}></rect>
+            <rect x="8" y="24" width="11" height="9" rx="1" fill={C.pink}></rect>
+            <rect x="21" y="24" width="11" height="9" rx="1" fill={C.purple}></rect>
+          </svg>
+          <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: "0.07em" }}>
+            <span style={{ color: "#111" }}>BRIGHT </span>
+            {"BLOCKS".split("").map((ch, i) => <span key={i} style={{ color: logoColors[i] }}>{ch}</span>)}
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 22, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: "#111" }}>
+          <span>WHAT WE DO</span><span>WORK</span><span>TEAM</span><span>CONTACT</span>
+          <span style={{ color: "#777", fontWeight: 400, fontSize: 11 }}>+1 (403) 617-8007</span>
+        </div>
+      </div>
+      {/* Info bar */}
+      <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 36px", borderBottom: "1px solid #e5e5e5", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", color: "#bbb" }}>
+        <span><span style={{ color: C.pink }}>00</span>{" BLOCK OPERATIONS · CITIES ACROSS CANADA"}</span>
+        <span>BUILDING BETTER BLOCKS · 2026</span>
+      </div>
+      {/* Giant colorful headline */}
+      <div style={{ padding: "14px 32px 0" }}>
+        <div style={{ fontWeight: 900, lineHeight: 0.88, textTransform: "uppercase", letterSpacing: "-0.025em" }}>
+          <div style={{ fontSize: 108, color: C.green }}>Clean,</div>
+          <div style={{ fontSize: 108 }}><span style={{ color: C.pink }}>Safe, </span><span style={{ color: C.orange }}>Active</span></div>
+          <div style={{ fontSize: 108, color: C.blue }}>Commercial</div>
+          <div style={{ fontSize: 108, color: C.purple }}>Blocks.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+/* ══════════════════════════════════════════════════════════
+   Before/After Compare Slider
+   ══════════════════════════════════════════════════════════ */
+function CompareSlider() {
+  const [pos, setPos] = useState(0); // start fully on the OLD site
+  const [dragging, setDragging] = useState(false);
+  const [labelsOn, setLabelsOn] = useState(true);
+  const frameRef = useRef(null);
+  const hideTimer = useRef(null);
+  const userTookOver = useRef(false);
+
+  /* Entrance sweep: rest on the old site, then slide to reveal the new design */
+  useEffect(() => {
+    let raf = null, start;
+    const t0 = setTimeout(() => {
+      const dur = 1900, to = 100;
+      const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const step = (ts) => {
+        if (userTookOver.current) return;
+        if (start === undefined) start = ts;
+        const p = Math.min(1, (ts - start) / dur);
+        setPos(to * ease(p));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, 800);
+    return () => { clearTimeout(t0); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
+  const posFromX = useCallback((clientX) => {
+    const rect = frameRef.current.getBoundingClientRect();
+    setPos(Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100)));
+  }, []);
+
+  const wake = useCallback(() => {
+    setLabelsOn(true);
+    clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => setLabelsOn(false), 1400);
+  }, []);
+
+  useEffect(() => {
+    hideTimer.current = setTimeout(() => setLabelsOn(false), 2600);
+    const el = frameRef.current;
+    if (el) el.addEventListener("pointermove", wake);
+    return () => { clearTimeout(hideTimer.current); if (el) el.removeEventListener("pointermove", wake); };
+  }, [wake]);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e) => posFromX(e.touches ? e.touches[0].clientX : e.clientX);
+    const onUp = () => setDragging(false);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    return () => { window.removeEventListener("pointermove", onMove); window.removeEventListener("pointerup", onUp); };
+  }, [dragging, posFromX]);
+
+  return (
+    /* Outer frame — black bezel · 60% of the page on desktop */
+    <div className="rise d4 slider-bezel" style={{ padding: "10px", background: "#0a0a0a", borderRadius: 24, boxShadow: "0 30px 80px -15px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)" }}>
+      <div
+        ref={frameRef}
+        style={{ position: "relative", width: "100%", aspectRatio: "1024/640", borderRadius: 14, overflow: "hidden", cursor: dragging ? "grabbing" : "ew-resize", touchAction: "none", background: "#111" }}
+        onPointerDown={(e) => { userTookOver.current = true; setDragging(true); posFromX(e.clientX); wake(); }}
+      >
+        {/* Old site — base */}
+        <FitSite><OldSite></OldSite></FitSite>
+        {/* NEW site — real brightblocks.ca screenshot, clipped */}
+      <div style={{ position: "absolute", inset: 0, clipPath: "inset(0 " + (100 - pos) + "% 0 0)" }}>
+          <img src="assets/brightblocks-new.jpg" alt="The new brightblocks.ca" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
+        {/* Labels */}
+        <span style={{ position: "absolute", top: 16, left: 16, fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(0,0,0,0.6)", color: "#fff", borderRadius: 100, padding: "6px 12px", backdropFilter: "blur(8px)", pointerEvents: "none", opacity: labelsOn && pos > 16 ? 1 : 0, transition: "opacity 0.6s ease-out" }}>After</span>
+        <span style={{ position: "absolute", top: 16, right: 16, fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(255,255,255,0.7)", color: "rgba(0,0,0,0.6)", borderRadius: 100, padding: "6px 12px", backdropFilter: "blur(8px)", pointerEvents: "none", opacity: labelsOn && pos < 84 ? 1 : 0, transition: "opacity 0.6s ease-out" }}>Before</span>
+        {/* Divider + handle */}
+        <div style={{ position: "absolute", top: 0, bottom: 0, left: pos + "%", pointerEvents: "none" }}>
+          <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", transform: "translateX(-50%)", width: 1, background: "rgba(255,255,255,0.9)", boxShadow: "0 0 8px rgba(0,0,0,0.4)" }}></div>
+          <button
+            style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 36, height: 36, borderRadius: "50%", background: "#fff", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.4)", cursor: dragging ? "grabbing" : "grab", pointerEvents: "auto" }}
+            onPointerDown={(e) => { e.stopPropagation(); userTookOver.current = true; setDragging(true); wake(); }}
+            onKeyDown={(e) => { if (e.key === "ArrowLeft") { e.preventDefault(); setPos((p) => Math.max(0, p - 4)); wake(); } if (e.key === "ArrowRight") { e.preventDefault(); setPos((p) => Math.min(100, p + 4)); wake(); } }}
+            aria-label="Drag to compare" role="slider" aria-valuenow={Math.round(pos)} aria-valuemin="0" aria-valuemax="100"
+          >
+            <svg width="5" height="8" viewBox="0 0 6 9" aria-hidden="true"><path d="M6 0 L0 4.5 L6 9 Z" fill="#1d1d1f"></path></svg>
+            <svg width="5" height="8" viewBox="0 0 6 9" aria-hidden="true"><path d="M0 0 L6 4.5 L0 9 Z" fill="#1d1d1f"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   NEXORA DASHBOARD PREVIEW
+   ══════════════════════════════════════════════════════════ */
+const SIDEBAR_ITEMS = [
+  { icon: "M3 11 L12 3 L21 11 V21 H14 V14 H10 V21 H3 Z", label: "Overview", active: true },
+  { icon: "M9 11 L12 14 L20 6 M20 12 V19 a2 2 0 0 1-2 2 H5 a2 2 0 0 1-2-2 V6 a2 2 0 0 1 2-2 H15", label: "Projects" },
+  { icon: "M21 12 H16 L14 15 H10 L8 12 H2", label: "Inbox", badge: "8" },
+  { icon: "M2 8 H22 M4 5 H20 a2 2 0 0 1 2 2 V17 a2 2 0 0 1-2 2 H4 a2 2 0 0 1-2-2 V7 a2 2 0 0 1 2-2", label: "Billing" },
+  { icon: "M3 3 H21 V15 H3 Z M7 21 H17 M12 15 V21", label: "Sites" },
+];
+
+function TinyIcon({ d }) {
+  return <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d}></path></svg>;
+}
+
+function AreaChart() {
+  return (
+    <svg viewBox="0 0 320 80" style={{ width: "100%", height: 80 }} preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="af" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18"></stop>
+          <stop offset="100%" stopColor="#6366f1" stopOpacity="0"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0 68 C30 64, 52 44, 80 46 C108 48, 125 62, 160 54 C195 46, 210 22, 245 28 C270 33, 295 12, 320 8 L320 80 L0 80 Z" fill="url(#af)"></path>
+      <path d="M0 68 C30 64, 52 44, 80 46 C108 48, 125 62, 160 54 C195 46, 210 22, 245 28 C270 33, 295 12, 320 8" fill="none" stroke="#6366f1" strokeWidth="1.5"></path>
+    </svg>
+  );
+}
+
+const SITES = [
+  { name: "brightblocks.ca", status: "Live", score: 97, traffic: "+38%" },
+  { name: "hartleysons.com", status: "Building", score: 84, traffic: "—" },
+  { name: "downtownyyc.org", status: "Review", score: 79, traffic: "+12%" },
+];
+
+function NexoraDashboard() {
+  return (
+    <div style={{ borderRadius: 14, overflow: "hidden", background: "#0a0a0a", boxShadow: "0 50px 120px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.06)" }}>
+      {/* Browser chrome */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", background: "#fff", borderBottom: "1px solid #ececec" }}>
+        <div style={{ display: "flex", gap: 6 }}>
+          <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#ff5f57" }}></span>
+          <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#febc2e" }}></span>
+          <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#28c840" }}></span>
+        </div>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#f1f1f0", borderRadius: 6, padding: "4px 16px", fontSize: 10.5, color: "#6e6e73", fontWeight: 500 }}>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M19 11 H5 a2 2 0 0 0-2 2 v7 a2 2 0 0 0 2 2 h14 a2 2 0 0 0 2-2 v-7 a2 2 0 0 0-2-2 M7 11 V7 a5 5 0 0 1 10 0 v4"></path></svg>
+            brightblocks.ca/admin/
+          </span>
+        </div>
+        <div style={{ width: 47 }}></div>
+      </div>
+      {/* Real Bright Blocks Command Center */}
+      <img src="assets/brightblocks-dashboard.jpg" alt="Bright Blocks Command Center dashboard" style={{ display: "block", width: "100%", aspectRatio: "2296 / 1431", objectFit: "cover" }} />
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   BigPanel — scales a fixed-design-width panel up to its
+   container so type and spacing grow proportionally
+   ══════════════════════════════════════════════════════════ */
+function BigPanel({ children, design = 880 }) {
+  const outerRef = useRef(null);
+  const innerRef = useRef(null);
+  const [s, setS] = useState(1);
+  const [h, setH] = useState(null);
+  React.useLayoutEffect(() => {
+    const outer = outerRef.current;
+    const inner = innerRef.current;
+    if (!outer || !inner) return;
+    const observer = new ResizeObserver(() => {
+      const w = outer.clientWidth;
+      if (w) {
+        const scale = w / design;
+        setS(scale);
+        setH(inner.offsetHeight * scale);
+      }
+    });
+    observer.observe(outer);
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, [design]);
+  return (
+    <div ref={outerRef} style={{ width: "100%", height: h || "auto", overflow: "visible" }}>
+      <div ref={innerRef} style={{ width: design, transform: "scale(" + s + ")", transformOrigin: "top left" }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   GLOBAL NAV
+   ══════════════════════════════════════════════════════════ */
+function GlobalNav() {
+  return (
+    <nav style={{ position: "sticky", top: 0, zIndex: 100, width: "100%", background: "#1d1d1f" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", height: 44, padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <a href="#" style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", textDecoration: "none", fontFamily: "'Inter', -apple-system, sans-serif" }}>AI Insight</a>
+        <div style={{ display: "flex", alignItems: "center", gap: 28 }} className="hidden md:flex">
+          {["Dashboard","Briefings","Pricing"].map((l) => (
+            <a key={l} href={l === "Pricing" ? "#pricing" : "#"} style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", textDecoration: "none", transition: "color 0.2s" }}>{l}</a>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 16 }}>
+          <button style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.7)", padding: 4 }} aria-label="Search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true"><path d="M11 4 a7 7 0 1 0 0 14 a7 7 0 0 0 0-14 M16.5 16.5 L21 21"></path></svg>
+          </button>
+          <button style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.7)", padding: 4 }} aria-label="Get started">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 L17 7 M8 7 H17 V16"></path></svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   APP
+   ══════════════════════════════════════════════════════════ */
+function App() {
+  /* Animate Convix cards when they scroll into view */
+  const convixRef = useRef(null);
+  const [convixInView, setConvixInView] = useState(false);
+  useEffect(() => {
+    const el = convixRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setConvixInView(true); obs.disconnect(); } }, { threshold: 0.25 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div style={{ background: "#fff", minHeight: "100vh" }}>
+      <GlobalNav></GlobalNav>
+
+      {/* ── SECTION 1: Before/after slider ── */}
+      <section style={{ background: "#fff", paddingBottom: 80, position: "relative", zIndex: 2 }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 24px 0", textAlign: "center" }}>
+          <span className="rise d1" style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, border: "1px solid rgba(0,0,0,0.1)", padding: "5px 14px", fontSize: 12, color: "#6e6e73" }}>
+            AI website redevelopment
+          </span>
+          <h1 className="rise d2" style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.6rem,6vw,4.4rem)", lineHeight: 1.02, letterSpacing: "-0.025em", color: "#1d1d1f", marginTop: 20, marginBottom: 0 }}>
+            Your website, <em style={{ fontStyle: "italic" }}>reborn</em>.
+          </h1>
+          <p className="rise d3" style={{ marginTop: 16, marginBottom: 36, fontSize: 16, lineHeight: 1.65, color: "#6e6e73", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
+            We take the site you have, rebuild it with AI, and hand back one you're proud of. Drag the slider — that's a real client.
+          </p>
+          <div className="rise d3" style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 44 }}>
+            <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: "#1d1d1f", color: "#fff", fontSize: 13.5, fontWeight: 600, padding: "12px 24px", cursor: "pointer" }}>Get your rebuild</a>
+            <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: "transparent", color: "#1d1d1f", fontSize: 13.5, fontWeight: 500, padding: "11px 20px", border: "1px solid rgba(0,0,0,0.15)", cursor: "pointer" }}>See pricing</a>
+          </div>
+          {/* Tablet */}
+          <CompareSlider></CompareSlider>
+        </div>
+      </section>
+
+      {/* ── SECTIONS 2 + 3: Forest world — sticky video stands still once in view ── */}
+      <div style={{ position: "relative" }}>
+        {/* Sticky forest — fills viewport and holds while content scrolls over it */}
+        <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", zIndex: 0 }}>
+          <video autoPlay loop playsInline muted poster="assets/forest-poster.jpg" style={{ width: "100%", height: "100%", objectFit: "cover" }} src="assets/nexora-hero.mp4"></video>
+        </div>
+
+        {/* Content scrolls over the standing forest */}
+        <div style={{ position: "relative", zIndex: 10, marginTop: "-100vh" }}>
+
+          {/* ── NEXORA: Dashboard / Control Panel ── */}
+          <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px" }}>
+            <div style={{ maxWidth: 860, width: "100%", textAlign: "center", marginBottom: 40 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, background: "#fff", padding: "6px 16px", fontSize: 11.5, fontWeight: 500, color: "#1d1d1f", marginBottom: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}>It comes with this</span>
+              <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2rem,5vw,3.6rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 28px rgba(0,0,0,0.55)" }}>
+                Your whole business. <em style={{ fontStyle: "italic" }}>One screen.</em>
+              </h2>
+              <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.65, color: "#fff", maxWidth: 440, margin: "14px auto 0", textShadow: "0 1px 18px rgba(0,0,0,0.6)" }}>
+                Sales, website traffic, ad spend, and where your customers actually come from — pulled together while you sleep. This lives behind your new website.
+              </p>
+            </div>
+            <div style={{ width: "90%", maxWidth: 1240 }}>
+              <BigPanel design={880}>
+                <NexoraDashboard></NexoraDashboard>
+              </BigPanel>
+            </div>
+          </section>
+
+          {/* ── BUY: Three options, one click ── */}
+          <section ref={convixRef} style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px" }}>
+            <div style={{ maxWidth: 860, width: "100%", textAlign: "center", marginBottom: 40 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, background: "#fff", padding: "6px 16px", fontSize: 11.5, fontWeight: 500, color: "#1d1d1f", marginBottom: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}>Pick one</span>
+              <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2rem,5vw,3.6rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 28px rgba(0,0,0,0.55)" }}>
+                Three options. <em style={{ fontStyle: "italic" }}>One click.</em>
+              </h2>
+              <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.65, color: "#fff", maxWidth: 440, margin: "14px auto 0", textShadow: "0 1px 18px rgba(0,0,0,0.6)" }}>
+                Pick one and this gets wired into your website within 24 hours. That's the whole process.
+              </p>
+            </div>
+            <div className={convixInView ? "in-view" : ""} style={{ width: "90%", maxWidth: 1240, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+              <PlanCard index={0}></PlanCard>
+              <PlanCard index={1}></PlanCard>
+              <PlanCard index={2}></PlanCard>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      {/* ── Sections below the forest (PM copy) ── */}
+      <PainSelector></PainSelector>
+      <MondayBriefing></MondayBriefing>
+      <PricingSection></PricingSection>
+      <CTASection></CTASection>
+      <AICFooter></AICFooter>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App></App>);
+</script>
+</body>
+</html>
