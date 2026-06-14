@@ -1,4 +1,4 @@
-/* AI Insight Collective — sections below the dashboard */
+/* Lowdown homepage — sections below the forest */
 const { useState: useStateS } = React;
 
 const AIC_INK = "#1d1d1f";
@@ -7,9 +7,10 @@ const AIC_LINE = "#e5e5e5";
 
 /* ── SWAP THESE: real Stripe payment links + scheduling link ── */
 const STRIPE_LINKS = {
-  see: "#pricing",  // TODO: Stripe payment link — See ($249/mo + $1,200 setup)
-  know: "#pricing", // TODO: Stripe payment link — Know ($499/mo + $2,000 setup)
-  act: "#pricing",  // TODO: Stripe payment link — Act ($899/mo + $2,500 setup)
+  see: "#pricing",  // TODO: Stripe payment link — See ($99/mo + $1,000 setup)
+  know: "#pricing", // TODO: Stripe payment link — Know ($149/mo + $2,000 setup)
+  act: "#pricing",  // TODO: Stripe payment link — Act ($249/mo + $3,000 setup)
+  intro: "#pricing", // TODO: Stripe payment link — Intro ($50/mo grandfathered)
 };
 const SCHEDULING_LINK = "#"; // TODO: real scheduling link (Cal.com / Calendly)
 
@@ -17,45 +18,6 @@ function formatMostRecentMonday() {
   const d = new Date();
   d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
   return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-}
-
-/* ══════════ PLAN CARDS (forest section — the three buy buttons) ══════════
-   Pricing amounts also live in TIERS below — keep both in sync when prices or Stripe links change. */
-const PLAN_CARDS = [
-  {
-    key: "see", name: "See", price: "$249", setup: "$1,200 setup",
-    line: "Every number from your sales, your website, and your ads on one screen. No more guessing.",
-    cta: "Start with See",
-  },
-  {
-    key: "know", name: "Know", price: "$499", setup: "$2,000 setup", popular: true,
-    line: "Everything in See, plus three plain-English insights in your inbox every Monday at 6 AM.",
-    cta: "Start with Know",
-  },
-  {
-    key: "act", name: "Act", price: "$899", setup: "$2,500 setup",
-    line: "Everything in Know, plus exactly what to do about it — move this budget, cut that campaign, fix this page.",
-    cta: "Start with Act",
-  },
-];
-
-function PlanCard({ index }) {
-  const p = PLAN_CARDS[index];
-  return (
-    <div className="card-anim" style={{ position: "relative", background: "#fff", borderRadius: 16, padding: "26px 24px 22px", boxShadow: "0 24px 60px -12px rgba(0,0,0,0.35)", display: "flex", flexDirection: "column", border: p.popular ? "2px solid " + AIC_INK : "2px solid transparent" }}>
-      {p.popular && (
-        <span style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: AIC_INK, color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", borderRadius: 100, padding: "5px 14px", whiteSpace: "nowrap" }}>Most owners pick this</span>
-      )}
-      <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, lineHeight: 1, color: AIC_INK, margin: 0 }}>{p.name}</p>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 14 }}>
-        <span style={{ fontSize: 38, fontWeight: 600, letterSpacing: "-0.02em", color: AIC_INK, lineHeight: 1 }}>{p.price}</span>
-        <span style={{ fontSize: 14, color: AIC_SUB }}>/month</span>
-      </div>
-      <p style={{ fontSize: 14, lineHeight: 1.6, color: "#3a3a3c", margin: "16px 0 22px", flex: 1 }}>{p.line}</p>
-      <a href={STRIPE_LINKS[p.key]} style={{ display: "block", textAlign: "center", textDecoration: "none", borderRadius: 100, padding: "13px 0", fontSize: 14, fontWeight: 600, background: AIC_INK, color: "#fff", cursor: "pointer" }}>{p.cta} →</a>
-      <p style={{ fontSize: 11.5, color: AIC_SUB, textAlign: "center", margin: "12px 0 0" }}>{p.setup} · wired into your site within 24 hours</p>
-    </div>
-  );
 }
 
 function Eyebrow({ children, light }) {
@@ -120,28 +82,28 @@ function PainSelector() {
 
         {/* Nudge */}
         <p style={{ marginTop: 40, fontSize: 14.5, color: AIC_SUB }}>That answer above? That's a sample briefing. You'd get one every Monday without opening a single dashboard.</p>
-        <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", marginTop: 18, borderRadius: 100, background: AIC_INK, color: "#fff", fontSize: 14, fontWeight: 600, padding: "13px 28px", cursor: "pointer" }}>Get your dashboard</a>
+        <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", marginTop: 18, borderRadius: 100, background: AIC_INK, color: "#fff", fontSize: 14, fontWeight: 600, padding: "13px 28px", cursor: "pointer" }}>Get Lowdown</a>
       </div>
     </section>
   );
 }
 
-/* ══════════ MONDAY BRIEFING ══════════ */
+/* ══════════ THE MONDAY LOWDOWN ══════════ */
 const BRIEF_INSIGHTS = [
   "Your LinkedIn is outperforming Google this week — by a lot. Consider posting more case studies.",
   "Two inquiries came from the downtown feature article. It's still circulating. Don't let it die.",
   "Your pricing page lost 41% of visitors before they reached the form. This needs fixing now.",
 ];
 
-function MondayBriefing() {
+function MondayLowdown() {
   return (
-    <section data-screen-label="Monday Briefing" style={{ background: "#1d1d1f", padding: "96px 24px" }}>
+    <section id="briefings" data-screen-label="The Monday Lowdown" style={{ background: "#1d1d1f", padding: "96px 24px" }}>
       <div style={{ maxWidth: 980, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 56, alignItems: "center" }}>
         {/* Copy */}
         <div>
           <Eyebrow light>Monday · 6:00 AM · Every week</Eyebrow>
           <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.2rem,5vw,3.8rem)", lineHeight: 1.02, letterSpacing: "-0.02em", color: "#fff", margin: "18px 0 0" }}>
-            Three things.<br /><em style={{ fontStyle: "italic" }}>Plain English.</em>
+            The Monday Lowdown
           </h2>
           <p style={{ marginTop: 18, fontSize: 16, lineHeight: 1.65, color: "rgba(255,255,255,0.6)", maxWidth: 380 }}>Your AI briefing lands every Monday at 6 AM. No charts. No dashboards. Just what to know.</p>
         </div>
@@ -149,8 +111,8 @@ function MondayBriefing() {
         {/* Email mock */}
         <div style={{ background: "#fff", borderRadius: 16, overflow: "hidden", boxShadow: "0 40px 100px -20px rgba(0,0,0,0.6)" }}>
           <div style={{ padding: "18px 22px", borderBottom: "1px solid " + AIC_LINE }}>
-            <p style={{ fontSize: 12, color: AIC_SUB, margin: 0 }}>From: <span style={{ color: AIC_INK, fontWeight: 500 }}>AI Insight Collective &lt;brief@aiinsight.us&gt;</span></p>
-            <p style={{ fontSize: 14.5, fontWeight: 600, color: AIC_INK, margin: "7px 0 0" }}>Your week at a glance — {formatMostRecentMonday()}</p>
+            <p style={{ fontSize: 12, color: AIC_SUB, margin: 0 }}>From: <span style={{ color: AIC_INK, fontWeight: 500 }}>Lowdown &lt;brief@aiinsight.us&gt;</span></p>
+            <p style={{ fontSize: 14.5, fontWeight: 600, color: AIC_INK, margin: "7px 0 0" }}>Your Monday Lowdown — {formatMostRecentMonday()}</p>
           </div>
           <div style={{ padding: "20px 22px" }}>
             <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: AIC_SUB, margin: 0 }}>This week's three things</p>
@@ -164,7 +126,7 @@ function MondayBriefing() {
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 22px", borderTop: "1px solid " + AIC_LINE, fontSize: 11, color: AIC_SUB }}>
-            <span>AI Insight Collective · aiinsight.us</span>
+            <span>Lowdown · aiinsight.us</span>
             <span>Every Monday, 6 AM</span>
           </div>
         </div>
@@ -174,22 +136,22 @@ function MondayBriefing() {
 }
 
 /* ══════════ PRICING ══════════
-   Tier amounts also live in PLAN_CARDS above — keep both in sync when prices or Stripe links change. */
+   Tier amounts are the only dollar values that should appear on the homepage. */
 const TIERS = [
   {
-    name: "See", tagline: "Your numbers, finally in one place.", price: "$249/mo", setup: "+ $1,200 setup",
+    name: "See", tagline: "Your numbers, finally in one place.", price: "$99/mo", setup: "$1,000 setup",
     desc: "Connect your POS, website, and ad accounts into one executive dashboard. Stop switching between four tools to understand one business.",
-    features: ["Executive dashboard", "3 data connectors", "Monthly summary report", "US-based email support"],
+    features: ["Executive dashboard", "3 data connectors", "Monthly summary report", "Priority support — a real human, same day."],
   },
   {
-    name: "Know", tagline: "What the numbers mean.", price: "$499/mo", setup: "+ $2,000 setup", popular: true,
-    desc: "Everything in See, plus a plain-English AI briefing every Monday at 6 AM — three things worth your attention, explained without jargon.",
-    features: ["Everything in See", "Unlimited connectors", "Weekly AI briefings", "Opportunity alerts", "Priority US support"],
+    name: "Know", tagline: "What the numbers mean.", price: "$149/mo", setup: "$2,000 setup", popular: true,
+    desc: "Everything in See, plus The Monday Lowdown — three plain-English insights in your inbox every week.",
+    features: ["Everything in See", "Unlimited connectors", "The Monday Lowdown", "Opportunity alerts", "Priority support — a real human, same day."],
   },
   {
-    name: "Act", tagline: "What to do about it.", price: "$899/mo", setup: "+ $2,500 setup",
+    name: "Act", tagline: "What to do about it.", price: "$249/mo", setup: "$3,000 setup",
     desc: "Everything in Know, plus prescriptive AI that tells you exactly where to move budget, which campaigns to cut, and what to change this week.",
-    features: ["Everything in Know", "Prescriptive AI recommendations", "Per-location dashboards", "Executive AI chatbot", "Dedicated account lead"],
+    features: ["Everything in Know", "Prescriptive AI recommendations", "Per-location dashboards", "Executive AI chatbot", "Priority support — a real human, same day."],
   },
 ];
 
@@ -203,9 +165,9 @@ function PricingSection() {
         </h2>
         <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.6, color: AIC_SUB }}>A setup fee, then a flat monthly. That's it. No surprises.</p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18, marginTop: 52, textAlign: "left" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 18, marginTop: 52, textAlign: "left" }}>
           {TIERS.map((t) => (
-            <div key={t.name} style={{ position: "relative", border: t.popular ? "2px solid " + AIC_INK : "1px solid " + AIC_LINE, borderRadius: 20, padding: "30px 28px", display: "flex", flexDirection: "column" }}>
+            <div key={t.name} className="card-anim" style={{ position: "relative", border: t.popular ? "2px solid " + AIC_INK : "1px solid " + AIC_LINE, borderRadius: 20, padding: "30px 28px", display: "flex", flexDirection: "column", background: "#fff" }}>
               {t.popular && (
                 <span style={{ position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)", background: AIC_INK, color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", borderRadius: 100, padding: "5px 14px", whiteSpace: "nowrap" }}>Most popular</span>
               )}
@@ -227,6 +189,17 @@ function PricingSection() {
           ))}
         </div>
 
+        {/* Intro grandfather offer */}
+        <div style={{ marginTop: 44, padding: "28px 32px", border: "1px dashed " + AIC_LINE, borderRadius: 20, maxWidth: 720, marginLeft: "auto", marginRight: "auto", textAlign: "left" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+            <div>
+              <p style={{ fontSize: 15, fontWeight: 700, color: AIC_INK, margin: 0 }}>Intro — $50/mo, locked for life</p>
+              <p style={{ fontSize: 13.5, lineHeight: 1.6, color: AIC_SUB, margin: "6px 0 0", maxWidth: 420 }}>Everything in Know, at $50/mo forever. For the first 15 businesses only. After that, standard pricing applies.</p>
+            </div>
+            <a href={STRIPE_LINKS.intro} style={{ display: "inline-block", textAlign: "center", textDecoration: "none", borderRadius: 100, padding: "11px 22px", fontSize: 13, fontWeight: 600, cursor: "pointer", background: AIC_INK, color: "#fff", whiteSpace: "nowrap" }}>Claim Intro →</a>
+          </div>
+        </div>
+
         <p style={{ marginTop: 36, fontSize: 13.5, color: AIC_SUB }}>Every plan includes the website rebuild. Wired into your site within 24 hours. Cancel anytime.</p>
       </div>
     </section>
@@ -243,12 +216,12 @@ function CTASection() {
           You don't know what's working.<br />
           <em style={{ fontStyle: "italic", color: "#86868b" }}>We fix that.</em>
         </h2>
-        <p style={{ marginTop: 22, fontSize: 16, lineHeight: 1.6, color: AIC_SUB, maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>Wired into your site within 24 hours. Your first Monday briefing lands the morning after you go live.</p>
+        <p style={{ marginTop: 22, fontSize: 16, lineHeight: 1.6, color: AIC_SUB, maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>Wired into your site within 24 hours. Your first Monday Lowdown lands the morning after you go live.</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-          <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: AIC_INK, color: "#fff", fontSize: 14.5, fontWeight: 600, padding: "14px 30px", cursor: "pointer" }}>See pricing</a>
-          <a href={SCHEDULING_LINK} style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: "transparent", color: AIC_INK, fontSize: 14.5, fontWeight: 500, padding: "13px 26px", border: "1px solid #c7c7cc", cursor: "pointer" }}>Book a demo →</a>
+          <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: AIC_INK, color: "#fff", fontSize: 14.5, fontWeight: 600, padding: "14px 30px", cursor: "pointer" }}>Book a demo</a>
+          <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: "transparent", color: AIC_INK, fontSize: 14.5, fontWeight: 500, padding: "13px 26px", border: "1px solid #c7c7cc", cursor: "pointer" }}>See pricing</a>
         </div>
-        <p style={{ marginTop: 36, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", color: "#86868b" }}>NO ANNUAL CONTRACTS · CANCEL ANYTIME · US-BASED SUPPORT</p>
+        <p style={{ marginTop: 36, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", color: "#86868b" }}>NO ANNUAL CONTRACTS · CANCEL ANYTIME · PRIORITY SUPPORT</p>
       </div>
     </section>
   );
@@ -256,18 +229,18 @@ function CTASection() {
 
 /* ══════════ FOOTER ══════════ */
 const FOOT_COLS = [
-  { h: "Product", links: ["Dashboard", "AI Briefings", "Lead Attribution", "Opportunity Alerts", "Pricing"] },
+  { h: "Product", links: ["Dashboard", "The Monday Lowdown", "Pricing"] },
   { h: "Company", links: ["About", "Contact"] },
   { h: "Legal", links: ["Privacy", "Terms", "Security"] },
 ];
 
-function AICFooter() {
+function LowdownFooter() {
   return (
     <footer data-screen-label="Footer" style={{ background: "#1d1d1f", padding: "64px 24px 36px" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 48, justifyContent: "space-between" }}>
           <div style={{ maxWidth: 300 }}>
-            <p style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", margin: 0 }}>AI Insight</p>
+            <p style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", margin: 0 }}>Lowdown</p>
             <p style={{ marginTop: 12, fontSize: 13, lineHeight: 1.65, color: "rgba(255,255,255,0.55)" }}>Business intelligence for owners who'd rather decide than dig through spreadsheets.</p>
           </div>
           <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
@@ -284,7 +257,7 @@ function AICFooter() {
           </div>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", borderTop: "1px solid rgba(255,255,255,0.12)", marginTop: 48, paddingTop: 22 }}>
-          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", margin: 0 }}>© 2026 AI Insight Collective, Inc. · A Delaware company. · Wilmington, DE</p>
+          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", margin: 0 }}>© 2026 AI Insight Collective, Inc. · A Delaware company. · Lowdown is a product of AI Insight Collective, Inc.</p>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.65)", margin: 0 }}>aiinsight.us</p>
         </div>
       </div>
@@ -292,4 +265,4 @@ function AICFooter() {
   );
 }
 
-Object.assign(window, { PainSelector, MondayBriefing, PricingSection, CTASection, AICFooter, PlanCard, STRIPE_LINKS, SCHEDULING_LINK });
+Object.assign(window, { PainSelector, MondayLowdown, PricingSection, CTASection, LowdownFooter, STRIPE_LINKS, SCHEDULING_LINK });
