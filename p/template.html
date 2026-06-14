@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lowdown · Before & After</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; color: #1d1d1f; }
+  .slider-bezel { width: min(92vw, 740px); margin: 0 auto; }
+  @media (min-width: 900px) { .slider-bezel { width: min(60vw, 740px); } }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+function FitSite({ children }) {
+  const ref = useRef(null);
+  const [scale, setScale] = useState(0);
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => {
+      const w = el.clientWidth;
+      if (w) setScale(w / 1024);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: 1024, height: 640, transform: "scale(" + scale + ")", transformOrigin: "top left", visibility: scale ? "visible" : "hidden" }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function OldSite() {
+  return (
+    <div aria-hidden="true" className="w-full h-full overflow-hidden select-none" style={{ background: "#f0f0f0", fontFamily: "'Arial', sans-serif" }}>
+      <div style={{ background: "linear-gradient(135deg, #1a4b7a 0%, #0d2f52 100%)", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ color: "#fff", fontSize: 22, fontWeight: 700, letterSpacing: 1 }}>BRIGHT BLOCKS</div>
+          <div style={{ color: "#aac8e8", fontSize: 11, marginTop: 2 }}>Block Revitalization | Calgary, AB</div>
+        </div>
+        <div style={{ color: "#fff", fontSize: 12, textAlign: "right" }}>
+          <div style={{ color: "#aac8e8" }}>Call Us Today</div>
+          <div style={{ fontSize: 16, fontWeight: 700 }}>(403) 617-8007</div>
+        </div>
+      </div>
+      <div style={{ background: "#2a6099", display: "flex", gap: 0 }}>
+        {["Home","About Us","Services","Gallery","Events","Contact"].map((l, i) => (
+          <span key={l} style={{ color: "#fff", fontSize: 12, fontWeight: i === 0 ? 700 : 400, padding: "9px 16px", background: i === 0 ? "#1a4b7a" : "transparent", borderRight: "1px solid rgba(255,255,255,0.15)", cursor: "pointer" }}>{l}</span>
+        ))}
+      </div>
+      <div style={{ background: "linear-gradient(rgba(10,30,60,0.62),rgba(10,30,60,0.62)), #4a7090", height: 180, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 40px", textAlign: "center" }}>
+        <div style={{ color: "#fff", fontSize: 26, fontWeight: 700, textShadow: "1px 2px 4px rgba(0,0,0,0.5)" }}>Revitalizing Calgary's Commercial Blocks</div>
+        <div style={{ color: "#cde", fontSize: 13, marginTop: 8 }}>Clean streets. Active programming. Measurable results.</div>
+        <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+          <span style={{ background: "#2a6099", color: "#fff", fontSize: 12, fontWeight: 700, padding: "8px 20px", borderRadius: 3, cursor: "pointer" }}>Learn More</span>
+          <span style={{ background: "transparent", color: "#fff", fontSize: 12, fontWeight: 700, padding: "7px 20px", borderRadius: 3, border: "2px solid #fff", cursor: "pointer" }}>Contact Us</span>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 12, padding: "18px 24px" }}>
+        {[{ t: "Clean + Safe", d: "Daily crews keep your block free of waste, graffiti, and visible disorder." }, { t: "Festivals & Events", d: "Pop-up programming and event support that bring people to the block." }, { t: "Intelligence", d: "Foot-traffic data and cleanliness reporting built for board presentations." }].map((s) => (
+          <div key={s.t} style={{ flex: 1, background: "#fff", border: "1px solid #ddd", borderTop: "3px solid #2a6099", padding: "14px 16px", borderRadius: 2 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#1a4b7a", marginBottom: 6 }}>{s.t}</div>
+            <div style={{ fontSize: 11, color: "#555", lineHeight: 1.6 }}>{s.d}</div>
+            <div style={{ marginTop: 8, fontSize: 11, color: "#2a6099", textDecoration: "underline", cursor: "pointer" }}>Read more »</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ background: "#222", color: "#aaa", fontSize: 10, textAlign: "center", padding: "12px 0", marginTop: "auto" }}>
+        © 2024 Bright Blocks Operations Inc. &nbsp;|&nbsp; Calgary, AB &nbsp;|&nbsp; (403) 617-8007 &nbsp;|&nbsp; hello@brightblocks.ca
+      </div>
+    </div>
+  );
+}
+
+function NewSite() {
+  const C = { green: "#2dc424", pink: "#f0328c", orange: "#f59e0b", blue: "#1a87c5", purple: "#6b21d4" };
+  const logoColors = [C.orange, C.blue, C.pink, C.green, C.orange, C.purple];
+  return (
+    <div aria-hidden="true" style={{ width: "100%", height: "100%", overflow: "hidden", background: "#fff", fontFamily: "'Inter','Arial Black',sans-serif", userSelect: "none" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 36px", borderBottom: "1.5px solid #e5e5e5" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <svg width="32" height="36" viewBox="0 0 40 46" fill="none" aria-hidden="true">
+            <path d="M20 1 L37 7 V24 C37 35 29 43 20 46 C11 43 3 35 3 24 V7 Z" fill="#f3f3f3" stroke="#ddd" strokeWidth="1"></path>
+            <rect x="8" y="13" width="11" height="9" rx="1" fill={C.green}></rect>
+            <rect x="21" y="13" width="11" height="9" rx="1" fill={C.orange}></rect>
+            <rect x="8" y="24" width="11" height="9" rx="1" fill={C.pink}></rect>
+            <rect x="21" y="24" width="11" height="9" rx="1" fill={C.purple}></rect>
+          </svg>
+          <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: "0.07em" }}>
+            <span style={{ color: "#111" }}>BRIGHT </span>
+            {"BLOCKS".split("").map((ch, i) => <span key={i} style={{ color: logoColors[i] }}>{ch}</span>)}
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 22, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: "#111" }}>
+          <span>WHAT WE DO</span><span>WORK</span><span>TEAM</span><span>CONTACT</span>
+          <span style={{ color: "#777", fontWeight: 400, fontSize: 11 }}>+1 (403) 617-8007</span>
+        </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 36px", borderBottom: "1px solid #e5e5e5", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", color: "#bbb" }}>
+        <span><span style={{ color: C.pink }}>00</span>{" BLOCK OPERATIONS · CITIES ACROSS CANADA"}</span>
+        <span>BUILDING BETTER BLOCKS · 2026</span>
+      </div>
+      <div style={{ padding: "14px 32px 0" }}>
+        <div style={{ fontWeight: 900, lineHeight: 0.88, textTransform: "uppercase", letterSpacing: "-0.025em" }}>
+          <div style={{ fontSize: 108, color: C.green }}>Clean,</div>
+          <div style={{ fontSize: 108 }}><span style={{ color: C.pink }}>Safe, </span><span style={{ color: C.orange }}>Active</span></div>
+          <div style={{ fontSize: 108, color: C.blue }}>Commercial</div>
+          <div style={{ fontSize: 108, color: C.purple }}>Blocks.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CompareSlider() {
+  const [pos, setPos] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [labelsOn, setLabelsOn] = useState(true);
+  const frameRef = useRef(null);
+  const hideTimer = useRef(null);
+  const userTookOver = useRef(false);
+
+  useEffect(() => {
+    let raf = null, start;
+    const t0 = setTimeout(() => {
+      const dur = 1900, to = 100;
+      const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const step = (ts) => {
+        if (userTookOver.current) return;
+        if (start === undefined) start = ts;
+        const p = Math.min(1, (ts - start) / dur);
+        setPos(to * ease(p));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, 800);
+    return () => { clearTimeout(t0); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
+  const posFromX = useCallback((clientX) => {
+    const rect = frameRef.current.getBoundingClientRect();
+    setPos(Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100)));
+  }, []);
+
+  const wake = useCallback(() => {
+    setLabelsOn(true);
+    clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => setLabelsOn(false), 1400);
+  }, []);
+
+  useEffect(() => {
+    hideTimer.current = setTimeout(() => setLabelsOn(false), 2600);
+    const el = frameRef.current;
+    if (el) el.addEventListener("pointermove", wake);
+    return () => { clearTimeout(hideTimer.current); if (el) el.removeEventListener("pointermove", wake); };
+  }, [wake]);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e) => posFromX(e.touches ? e.touches[0].clientX : e.clientX);
+    const onUp = () => setDragging(false);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    return () => { window.removeEventListener("pointermove", onMove); window.removeEventListener("pointerup", onUp); };
+  }, [dragging, posFromX]);
+
+  return (
+    <div className="slider-bezel" style={{ padding: "10px", background: "#0a0a0a", borderRadius: 24, boxShadow: "0 30px 80px -15px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)" }}>
+      <div
+        ref={frameRef}
+        style={{ position: "relative", width: "100%", aspectRatio: "1024/640", borderRadius: 14, overflow: "hidden", cursor: dragging ? "grabbing" : "ew-resize", touchAction: "none", background: "#111" }}
+        onPointerDown={(e) => { userTookOver.current = true; setDragging(true); posFromX(e.clientX); wake(); }}
+      >
+        <FitSite><OldSite></OldSite></FitSite>
+        <div style={{ position: "absolute", inset: 0, clipPath: "inset(0 " + (100 - pos) + "% 0 0)" }}>
+          <img src="../assets/brightblocks-new.jpg" alt="The new brightblocks.ca" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
+        <span style={{ position: "absolute", top: 16, left: 16, fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(0,0,0,0.6)", color: "#fff", borderRadius: 100, padding: "6px 12px", backdropFilter: "blur(8px)", pointerEvents: "none", opacity: labelsOn && pos > 16 ? 1 : 0, transition: "opacity 0.6s ease-out" }}>After</span>
+        <span style={{ position: "absolute", top: 16, right: 16, fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", background: "rgba(255,255,255,0.7)", color: "rgba(0,0,0,0.6)", borderRadius: 100, padding: "6px 12px", backdropFilter: "blur(8px)", pointerEvents: "none", opacity: labelsOn && pos < 84 ? 1 : 0, transition: "opacity 0.6s ease-out" }}>Before</span>
+        <div style={{ position: "absolute", top: 0, bottom: 0, left: pos + "%", pointerEvents: "none" }}>
+          <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", transform: "translateX(-50%)", width: 1, background: "rgba(255,255,255,0.9)", boxShadow: "0 0 8px rgba(0,0,0,0.4)" }}></div>
+          <button
+            style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 36, height: 36, borderRadius: "50%", background: "#fff", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 3, boxShadow: "0 2px 12px rgba(0,0,0,0.4)", cursor: dragging ? "grabbing" : "grab", pointerEvents: "auto" }}
+            onPointerDown={(e) => { e.stopPropagation(); userTookOver.current = true; setDragging(true); wake(); }}
+            onKeyDown={(e) => { if (e.key === "ArrowLeft") { e.preventDefault(); setPos((p) => Math.max(0, p - 4)); wake(); } if (e.key === "ArrowRight") { e.preventDefault(); setPos((p) => Math.min(100, p + 4)); wake(); } }}
+            aria-label="Drag to compare" role="slider" aria-valuenow={Math.round(pos)} aria-valuemin="0" aria-valuemax="100"
+          >
+            <svg width="5" height="8" viewBox="0 0 6 9" aria-hidden="true"><path d="M6 0 L0 4.5 L6 9 Z" fill="#1d1d1f"></path></svg>
+            <svg width="5" height="8" viewBox="0 0 6 9" aria-hidden="true"><path d="M0 0 L6 4.5 L0 9 Z" fill="#1d1d1f"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div style={{ background: "#fff", minHeight: "100vh", padding: "60px 24px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+        <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6e6e73", margin: "0 0 16px" }}>Prospect page · brightblocks.ca</p>
+        <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2rem,5vw,3.2rem)", lineHeight: 1.05, letterSpacing: "-0.02em", color: "#1d1d1f", margin: 0 }}>
+          Before & after
+        </h1>
+        <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.6, color: "#6e6e73", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
+          Based on a real client engagement. Drag the slider.
+        </p>
+      </div>
+      <div style={{ marginTop: 40 }}>
+        <CompareSlider></CompareSlider>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App></App>);
+</script>
+</body>
+</html>
