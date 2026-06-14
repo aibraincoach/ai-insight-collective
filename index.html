@@ -16,12 +16,13 @@
 <meta name="twitter:image" content="https://aiinsight.us/assets/forest-poster.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   html { scroll-behavior: smooth; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Helvetica Neue', sans-serif; -webkit-font-smoothing: antialiased; background: #fff; color: #1d1d1f; }
-  .font-serif { font-family: 'Instrument Serif', serif; font-weight: 400; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .font-display { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
 
   /* Transform-only entrance — opacity is NEVER animated, so a frozen animation clock can't hide content */
   @keyframes riseIn { from { transform: translateY(16px); } to { transform: translateY(0); } }
@@ -67,7 +68,7 @@
   <div style="min-height:100vh;background:#fff">
     <nav style="position:sticky;top:0;z-index:100;width:100%;background:#1d1d1f">
       <div style="max-width:1100px;margin:0 auto;height:44px;padding:0 20px;display:flex;align-items:center;justify-content:space-between">
-        <a href="#" style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#fff;text-decoration:none">Lowdown</a>
+        <a href="#" style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#fff;text-decoration:none">Lowdown</a>
         <div class="hidden md:flex" style="align-items:center;gap:28px">
           <a href="#dashboard" style="font-size:12px;color:rgba(255,255,255,0.75);text-decoration:none">Dashboard</a>
           <a href="#briefings" style="font-size:12px;color:rgba(255,255,255,0.75);text-decoration:none">Briefings</a>
@@ -80,8 +81,8 @@
     <section style="position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:#0a0a0a">
       <img src="assets/forest-poster.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.7" />
       <div style="position:relative;z-index:2;background:rgba(0,0,0,0.55);backdrop-filter:blur(12px);border-radius:24px;padding:48px 40px;max-width:700px">
-        <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin:0 0 16px">Lowdown</p>
-        <h1 style="font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,6vw,4rem);line-height:1.15;letter-spacing:-0.025em;color:#fff;margin:0">Know where your money comes from.</h1>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin:0 0 16px">Lowdown</p>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.4rem,6vw,4rem);line-height:1.15;letter-spacing:-0.025em;color:#fff;margin:0">Know where your money comes from.</h1>
         <p style="margin-top:16px;font-size:17px;line-height:1.65;color:rgba(255,255,255,0.85);max-width:520px">Lowdown pulls your sales, ads, and website into one picture — and explains it in plain English every Monday.</p>
         <a href="#pricing" style="display:inline-block;margin-top:28px;text-decoration:none;border-radius:100;background:#fff;color:#1d1d1f;font-size:14px;font-weight:600;padding:13px 28px">Book a demo</a>
       </div>
@@ -89,8 +90,8 @@
 
     <section id="dashboard" style="padding:96px 24px;background:#fff">
       <div style="max-width:860px;margin:0 auto;text-align:center">
-        <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">Your website, rebuilt and included</p>
-        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;letter-spacing:-0.025em;color:#1d1d1f;margin:16px 0 0">Your whole business. <em style="font-style:italic">One screen.</em></h2>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">Your website, rebuilt and included</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;letter-spacing:-0.025em;color:#1d1d1f;margin:16px 0 0">Your whole business. One screen.</h2>
         <p style="margin-top:14px;font-size:15px;line-height:1.65;color:#6e6e73;max-width:440px;margin:14px auto 0">Sales, website traffic, ad spend, and where your customers actually come from — pulled together while you sleep.</p>
         <p style="margin-top:12px;font-size:15px;line-height:1.65;color:#6e6e73;max-width:440px;margin:12px auto 0">Map every lead and sale back to the neighborhood it came from.</p>
       </div>
@@ -98,22 +99,22 @@
 
     <section style="padding:96px 24px;background:#f5f5f7">
       <div style="max-width:1080px;margin:0 auto;text-align:center">
-        <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">What you get</p>
-        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;letter-spacing:-0.025em;color:#1d1d1f;margin:16px 0 0">Three ways to know more.</h2>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">What you get</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;letter-spacing:-0.025em;color:#1d1d1f;margin:16px 0 0">Three ways to know more.</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:52px;text-align:left">
           <div style="background:#fff;border:1px solid #e5e5e5;border-radius:20px;padding:30px 28px">
-            <p style="font-size:17px;font-weight:700;color:#1d1d1f;margin:0">See</p>
-            <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:#6e6e73;margin:4px 0 0">Your numbers, finally in one place.</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:400;color:#1d1d1f;margin:0">See</p>
+            <p style="font-size:16px;color:#6e6e73;margin:4px 0 0">Your numbers, finally in one place.</p>
             <p style="font-size:13.5px;line-height:1.6;color:#6e6e73;margin:18px 0 0">Connect your POS, website, and ad accounts into one executive dashboard. Stop switching between four tools to understand one business.</p>
           </div>
           <div style="background:#fff;border:2px solid #1d1d1f;border-radius:20px;padding:30px 28px">
-            <p style="font-size:17px;font-weight:700;color:#1d1d1f;margin:0">Know</p>
-            <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:#6e6e73;margin:4px 0 0">What the numbers mean.</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:400;color:#1d1d1f;margin:0">Know</p>
+            <p style="font-size:16px;color:#6e6e73;margin:4px 0 0">What the numbers mean.</p>
             <p style="font-size:13.5px;line-height:1.6;color:#6e6e73;margin:18px 0 0">Everything in See, plus a plain-English AI briefing every Monday at 6 AM — three things worth your attention, explained without jargon.</p>
           </div>
           <div style="background:#fff;border:1px solid #e5e5e5;border-radius:20px;padding:30px 28px">
-            <p style="font-size:17px;font-weight:700;color:#1d1d1f;margin:0">Act</p>
-            <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:#6e6e73;margin:4px 0 0">What to do about it.</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:400;color:#1d1d1f;margin:0">Act</p>
+            <p style="font-size:16px;color:#6e6e73;margin:4px 0 0">What to do about it.</p>
             <p style="font-size:13.5px;line-height:1.6;color:#6e6e73;margin:18px 0 0">Everything in Know, plus prescriptive AI that tells you exactly where to move budget, which campaigns to cut, and what to change this week.</p>
           </div>
         </div>
@@ -122,29 +123,29 @@
 
     <section style="padding:96px 24px 88px;background:#fff">
       <div style="max-width:880px;margin:0 auto;text-align:center">
-        <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">Pick your problem</p>
-        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.05;letter-spacing:-0.02em;color:#1d1d1f;margin:16px 0 0">What's keeping you up?</h2>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">Pick your problem</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.05;letter-spacing:-0.02em;color:#1d1d1f;margin:16px 0 0">What's keeping you up?</h2>
       </div>
     </section>
 
     <section id="briefings" style="padding:96px 24px;background:#1d1d1f">
       <div style="max-width:980px;margin:0 auto">
-        <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin:0">Monday · 6:00 AM · Every week</p>
-        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.02;letter-spacing:-0.02em;color:#fff;margin:18px 0 0">The Monday Lowdown</h2>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin:0">Monday · 6:00 AM · Every week</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.02;letter-spacing:-0.02em;color:#fff;margin:18px 0 0">The Monday Lowdown</h2>
         <p style="margin-top:18px;font-size:16px;line-height:1.65;color:rgba(255,255,255,0.6);max-width:380px">Your AI briefing lands every Monday at 6 AM. No charts. No dashboards. Just what to know.</p>
       </div>
     </section>
 
     <section id="pricing" style="padding:96px 24px 80px;background:#fff">
       <div style="max-width:1080px;margin:0 auto;text-align:center">
-        <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">No contracts. No per-seat fees.</p>
-        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.02;letter-spacing:-0.02em;color:#1d1d1f;margin:16px 0 0">Setup once.<br />Know everything.</h2>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#6e6e73;margin:0">No contracts. No per-seat fees.</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.02;letter-spacing:-0.02em;color:#1d1d1f;margin:16px 0 0">Setup once.<br />Know everything.</h2>
       </div>
     </section>
 
     <section style="padding:110px 24px;background:#f5f5f7">
       <div style="max-width:820px;margin:0 auto;text-align:center">
-        <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5.4vw,4rem);line-height:1.06;letter-spacing:-0.02em;color:#1d1d1f;margin:0">You're spending money on ads.<br />You don't know what's working.<br /><em style="font-style:italic;color:#86868b">We fix that.</em></h2>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2.2rem,5.4vw,4rem);line-height:1.06;letter-spacing:-0.02em;color:#1d1d1f;margin:0">You're spending money on ads.<br />You don't know what's working.<br /><span style="color:#86868b">We fix that.</span></h2>
         <a href="#pricing" style="display:inline-block;margin-top:32px;text-decoration:none;border-radius:100;background:#1d1d1f;color:#fff;font-size:14.5px;font-weight:600;padding:14px 30px">Book a demo</a>
       </div>
     </section>
@@ -153,12 +154,12 @@
       <div style="max-width:1080px;margin:0 auto">
         <div style="display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between">
           <div style="max-width:300px">
-            <p style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#fff;margin:0">Lowdown</p>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#fff;margin:0">Lowdown</p>
             <p style="margin-top:12px;font-size:13px;line-height:1.65;color:rgba(255,255,255,0.55)">Business intelligence for owners who'd rather decide than dig through spreadsheets.</p>
           </div>
           <div style="display:flex;gap:56px;flex-wrap:wrap">
             <div>
-              <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin:0">Product</p>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin:0">Product</p>
               <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
                 <a href="#" style="font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none">Dashboard</a>
                 <a href="#" style="font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none">The Monday Lowdown</a>
@@ -166,14 +167,14 @@
               </div>
             </div>
             <div>
-              <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin:0">Company</p>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin:0">Company</p>
               <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
                 <a href="#" style="font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none">About</a>
                 <a href="#" style="font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none">Contact</a>
               </div>
             </div>
             <div>
-              <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin:0">Legal</p>
+              <p style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin:0">Legal</p>
               <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
                 <a href="#" style="font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none">Privacy</a>
                 <a href="#" style="font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none">Terms</a>
@@ -287,7 +288,7 @@ function GlobalNav() {
   return (
     <nav style={{ position: "sticky", top: 0, zIndex: 100, width: "100%", background: "#1d1d1f" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", height: 44, padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <a href="#" style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", textDecoration: "none", fontFamily: "'Inter', -apple-system, sans-serif" }}>Lowdown</a>
+        <a href="#" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", textDecoration: "none" }}>Lowdown</a>
         <div style={{ alignItems: "center", gap: 28 }} className="hidden md:flex">
           {["Dashboard","Briefings","Pricing"].map((l) => (
             <a key={l} href={l === "Pricing" ? "#pricing" : "#" + l.toLowerCase()} style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", textDecoration: "none", transition: "color 0.2s" }}>{l}</a>
@@ -336,8 +337,8 @@ function App() {
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%)", zIndex: 2 }}></div>
 
         <div className="rise d2" style={{ position: "relative", zIndex: 3, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 24, padding: "clamp(32px, 6vw, 56px) clamp(28px, 5vw, 48px)", maxWidth: 760, margin: "0 auto" }}>
-          <p className="rise d1" style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", margin: "0 0 16px" }}>Lowdown</p>
-          <h1 className="rise d2" style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.4rem, 6.5vw, 4.6rem)", lineHeight: 1.15, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 24px rgba(0,0,0,0.35)" }}>
+          <p className="rise d1" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 400, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", margin: "0 0 16px" }}>Lowdown</p>
+          <h1 className="rise d2" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2.4rem, 6.5vw, 4.6rem)", lineHeight: 1.15, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 24px rgba(0,0,0,0.35)" }}>
             Know where your money comes from.
           </h1>
           <p className="rise d3" style={{ marginTop: 18, fontSize: 17, lineHeight: 1.65, color: "rgba(255,255,255,0.9)", maxWidth: 540, marginLeft: "auto", marginRight: "auto", textShadow: "0 1px 12px rgba(0,0,0,0.35)" }}>
@@ -363,9 +364,9 @@ function App() {
           {/* ── DASHBOARD RISE ── */}
           <section id="dashboard" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px" }}>
             <div style={{ maxWidth: 860, width: "100%", textAlign: "center", marginBottom: 40 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, background: "#fff", padding: "6px 16px", fontSize: 11.5, fontWeight: 500, color: "#1d1d1f", marginBottom: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}>Your website, rebuilt and included</span>
-              <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2rem,5vw,3.6rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 28px rgba(0,0,0,0.55)" }}>
-                Your whole business. <em style={{ fontStyle: "italic" }}>One screen.</em>
+              <span style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, background: "#fff", padding: "6px 16px", fontFamily: "'JetBrains Mono', monospace", fontSize: 11.5, fontWeight: 400, color: "#1d1d1f", marginBottom: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}>Your website, rebuilt and included</span>
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2rem,5vw,3.6rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 28px rgba(0,0,0,0.55)" }}>
+                Your whole business. One screen.
               </h2>
               <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.65, color: "#fff", maxWidth: 440, margin: "14px auto 0", textShadow: "0 1px 18px rgba(0,0,0,0.6)" }}>
                 Sales, website traffic, ad spend, and where your customers actually come from — pulled together while you sleep. This lives behind your new website.
@@ -384,8 +385,8 @@ function App() {
           {/* ── SEE/KNOW/ACT CAPABILITY TRIO (no prices) ── */}
           <section ref={trioRef} style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px" }}>
             <div style={{ maxWidth: 860, width: "100%", textAlign: "center", marginBottom: 40 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, background: "#fff", padding: "6px 16px", fontSize: 11.5, fontWeight: 500, color: "#1d1d1f", marginBottom: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}>What you get</span>
-              <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2rem,5vw,3.6rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 28px rgba(0,0,0,0.55)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", borderRadius: 100, background: "#fff", padding: "6px 16px", fontFamily: "'JetBrains Mono', monospace", fontSize: 11.5, fontWeight: 400, color: "#1d1d1f", marginBottom: 20, boxShadow: "0 4px 16px rgba(0,0,0,0.25)" }}>What you get</span>
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2rem,5vw,3.6rem)", lineHeight: 1.05, letterSpacing: "-0.025em", color: "#fff", margin: 0, textShadow: "0 2px 28px rgba(0,0,0,0.55)" }}>
                 Three ways to know more.
               </h2>
               <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.65, color: "#fff", maxWidth: 440, margin: "14px auto 0", textShadow: "0 1px 18px rgba(0,0,0,0.6)" }}>
@@ -431,10 +432,10 @@ function CapabilityCard({ name, tagline, desc, popular }) {
   return (
     <div className="card-anim" style={{ position: "relative", background: "#fff", borderRadius: 16, padding: "26px 24px 22px", boxShadow: "0 24px 60px -12px rgba(0,0,0,0.35)", display: "flex", flexDirection: "column", border: popular ? "2px solid #1d1d1f" : "2px solid transparent" }}>
       {popular && (
-        <span style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#1d1d1f", color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", borderRadius: 100, padding: "5px 14px", whiteSpace: "nowrap" }}>Most owners pick this</span>
+        <span style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#1d1d1f", color: "#fff", fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 400, letterSpacing: "0.04em", borderRadius: 100, padding: "5px 14px", whiteSpace: "nowrap" }}>Most owners pick this</span>
       )}
-      <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, lineHeight: 1, color: "#1d1d1f", margin: 0 }}>{name}</p>
-      <p style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, color: "#6e6e73", margin: "4px 0 0" }}>{tagline}</p>
+      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 26, lineHeight: 1, color: "#1d1d1f", margin: 0 }}>{name}</p>
+      <p style={{ fontSize: 16, color: "#6e6e73", margin: "4px 0 0" }}>{tagline}</p>
       <p style={{ fontSize: 14, lineHeight: 1.6, color: "#3a3a3c", margin: "16px 0 0", flex: 1 }}>{desc}</p>
     </div>
   );

@@ -21,7 +21,7 @@ function formatMostRecentMonday() {
 }
 
 function Eyebrow({ children, light }) {
-  return <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: light ? "rgba(255,255,255,0.55)" : AIC_SUB, margin: 0 }}>{children}</p>;
+  return <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 400, letterSpacing: "0.12em", textTransform: "uppercase", color: light ? "rgba(255,255,255,0.55)" : AIC_SUB, margin: 0 }}>{children}</p>;
 }
 
 /* ══════════ PAIN SELECTOR ══════════ */
@@ -53,7 +53,7 @@ function PainSelector() {
     <section data-screen-label="Pain Selector" style={{ background: "#fff", padding: "96px 24px 88px" }}>
       <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center" }}>
         <Eyebrow>Pick your problem</Eyebrow>
-        <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2rem,4.6vw,3.4rem)", lineHeight: 1.05, letterSpacing: "-0.02em", color: AIC_INK, margin: "16px 0 0" }}>What's keeping you up?</h2>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2rem,4.6vw,3.4rem)", lineHeight: 1.05, letterSpacing: "-0.02em", color: AIC_INK, margin: "16px 0 0" }}>What's keeping you up?</h2>
         <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.6, color: AIC_SUB }}>The dashboard is built around the questions owners actually ask.</p>
 
         {/* Tabs */}
@@ -63,7 +63,7 @@ function PainSelector() {
               key={p.tab}
               onClick={() => setActive(i)}
               style={{
-                borderRadius: 100, padding: "11px 22px", fontSize: 13.5, fontWeight: 500, cursor: "pointer",
+                borderRadius: 100, padding: "11px 22px", fontFamily: "'JetBrains Mono', monospace", fontSize: 13.5, fontWeight: 400, cursor: "pointer",
                 background: i === active ? AIC_INK : "#fff",
                 color: i === active ? "#fff" : AIC_INK,
                 border: "1px solid " + (i === active ? AIC_INK : AIC_LINE),
@@ -75,9 +75,9 @@ function PainSelector() {
 
         {/* Active panel */}
         <div key={active} style={{ marginTop: 44, padding: "44px 36px", border: "1px solid " + AIC_LINE, borderRadius: 20, textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(1.6rem,3.4vw,2.5rem)", lineHeight: 1.1, letterSpacing: "-0.015em", color: AIC_INK, margin: 0 }}>{t.headline}</h3>
+          <h3 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(1.6rem,3.4vw,2.5rem)", lineHeight: 1.1, letterSpacing: "-0.015em", color: AIC_INK, margin: 0 }}>{t.headline}</h3>
           <p style={{ marginTop: 14, fontSize: 15.5, lineHeight: 1.65, color: AIC_SUB, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>{t.subline}</p>
-          <p style={{ marginTop: 26, display: "inline-block", background: "#f5f5f7", borderRadius: 12, padding: "16px 24px", fontSize: 15, fontWeight: 500, lineHeight: 1.55, color: AIC_INK, maxWidth: 560 }}>{t.rx}</p>
+          <p style={{ marginTop: 26, display: "inline-block", background: "#f5f5f7", borderRadius: 12, padding: "16px 24px", fontFamily: "'JetBrains Mono', monospace", fontSize: 15, fontWeight: 400, lineHeight: 1.55, color: AIC_INK, maxWidth: 560 }}>{t.rx}</p>
         </div>
 
         {/* Nudge */}
@@ -102,7 +102,7 @@ function MondayLowdown() {
         {/* Copy */}
         <div>
           <Eyebrow light>Monday · 6:00 AM · Every week</Eyebrow>
-          <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.2rem,5vw,3.8rem)", lineHeight: 1.02, letterSpacing: "-0.02em", color: "#fff", margin: "18px 0 0" }}>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.8rem)", lineHeight: 1.02, letterSpacing: "-0.02em", color: "#fff", margin: "18px 0 0" }}>
             The Monday Lowdown
           </h2>
           <p style={{ marginTop: 18, fontSize: 16, lineHeight: 1.65, color: "rgba(255,255,255,0.6)", maxWidth: 380 }}>Your AI briefing lands every Monday at 6 AM. No charts. No dashboards. Just what to know.</p>
@@ -115,7 +115,7 @@ function MondayLowdown() {
             <p style={{ fontSize: 14.5, fontWeight: 600, color: AIC_INK, margin: "7px 0 0" }}>Your Monday Lowdown — {formatMostRecentMonday()}</p>
           </div>
           <div style={{ padding: "20px 22px" }}>
-            <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: AIC_SUB, margin: 0 }}>This week's three things</p>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 400, letterSpacing: "0.1em", textTransform: "uppercase", color: AIC_SUB, margin: 0 }}>This week's three things</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 0, marginTop: 6 }}>
               {BRIEF_INSIGHTS.map((ins, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, padding: "14px 0", borderBottom: i < 2 ? "1px solid #f2f2f2" : "none" }}>
@@ -125,7 +125,7 @@ function MondayLowdown() {
               ))}
             </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 22px", borderTop: "1px solid " + AIC_LINE, fontSize: 11, color: AIC_SUB }}>
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "13px 22px", borderTop: "1px solid " + AIC_LINE, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 400, color: AIC_SUB }}>
             <span>Lowdown · aiinsight.us</span>
             <span>Every Monday, 6 AM</span>
           </div>
@@ -160,7 +160,7 @@ function PricingSection() {
     <section id="pricing" data-screen-label="Pricing" style={{ background: "#fff", padding: "96px 24px 80px" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
         <Eyebrow>No contracts. No per-seat fees.</Eyebrow>
-        <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.2rem,5vw,3.8rem)", lineHeight: 1.02, letterSpacing: "-0.02em", color: AIC_INK, margin: "16px 0 0" }}>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.8rem)", lineHeight: 1.02, letterSpacing: "-0.02em", color: AIC_INK, margin: "16px 0 0" }}>
           Setup once.<br />Know everything.
         </h2>
         <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.6, color: AIC_SUB }}>A setup fee, then a flat monthly. That's it. No surprises.</p>
@@ -169,12 +169,12 @@ function PricingSection() {
           {TIERS.map((t) => (
             <div key={t.name} className="card-anim" style={{ position: "relative", border: t.popular ? "2px solid " + AIC_INK : "1px solid " + AIC_LINE, borderRadius: 20, padding: "30px 28px", display: "flex", flexDirection: "column", background: "#fff" }}>
               {t.popular && (
-                <span style={{ position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)", background: AIC_INK, color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", borderRadius: 100, padding: "5px 14px", whiteSpace: "nowrap" }}>Most popular</span>
+                <span style={{ position: "absolute", top: -13, left: "50%", transform: "translateX(-50%)", background: AIC_INK, color: "#fff", fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 400, letterSpacing: "0.04em", borderRadius: 100, padding: "5px 14px", whiteSpace: "nowrap" }}>Most popular</span>
               )}
-              <p style={{ fontSize: 17, fontWeight: 700, color: AIC_INK, margin: 0 }}>{t.name}</p>
-              <p style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: 16, color: AIC_SUB, margin: "4px 0 0" }}>{t.tagline}</p>
-              <p style={{ fontSize: 34, fontWeight: 600, letterSpacing: "-0.02em", color: AIC_INK, margin: "20px 0 0", lineHeight: 1 }}>{t.price}</p>
-              <p style={{ fontSize: 13, color: AIC_SUB, margin: "6px 0 0" }}>{t.setup}</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 17, fontWeight: 400, color: AIC_INK, margin: 0 }}>{t.name}</p>
+              <p style={{ fontSize: 16, color: AIC_SUB, margin: "4px 0 0" }}>{t.tagline}</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 34, fontWeight: 400, letterSpacing: "-0.02em", color: AIC_INK, margin: "20px 0 0", lineHeight: 1 }}>{t.price}</p>
+              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 400, color: AIC_SUB, margin: "6px 0 0" }}>{t.setup}</p>
               <p style={{ fontSize: 13.5, lineHeight: 1.6, color: AIC_SUB, margin: "18px 0 0" }}>{t.desc}</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "20px 0 26px", display: "flex", flexDirection: "column", gap: 10 }}>
                 {t.features.map((f) => (
@@ -189,16 +189,6 @@ function PricingSection() {
           ))}
         </div>
 
-        {/* Intro grandfather offer */}
-        <div style={{ marginTop: 44, padding: "28px 32px", border: "1px dashed " + AIC_LINE, borderRadius: 20, maxWidth: 720, marginLeft: "auto", marginRight: "auto", textAlign: "left" }}>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-            <div>
-              <p style={{ fontSize: 15, fontWeight: 700, color: AIC_INK, margin: 0 }}>Intro — $50/mo, locked for life</p>
-              <p style={{ fontSize: 13.5, lineHeight: 1.6, color: AIC_SUB, margin: "6px 0 0", maxWidth: 420 }}>Everything in Know, at $50/mo forever. For the first 15 businesses only. After that, standard pricing applies.</p>
-            </div>
-            <a href={STRIPE_LINKS.intro} style={{ display: "inline-block", textAlign: "center", textDecoration: "none", borderRadius: 100, padding: "11px 22px", fontSize: 13, fontWeight: 600, cursor: "pointer", background: AIC_INK, color: "#fff", whiteSpace: "nowrap" }}>Claim Intro →</a>
-          </div>
-        </div>
 
         <p style={{ marginTop: 36, fontSize: 13.5, color: AIC_SUB }}>Every plan includes the website rebuild. Wired into your site within 24 hours. Cancel anytime.</p>
       </div>
@@ -211,17 +201,17 @@ function CTASection() {
   return (
     <section data-screen-label="CTA" style={{ background: "#f5f5f7", padding: "110px 24px" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.2rem,5.4vw,4rem)", lineHeight: 1.06, letterSpacing: "-0.02em", color: AIC_INK, margin: 0 }}>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem,5.4vw,4rem)", lineHeight: 1.06, letterSpacing: "-0.02em", color: AIC_INK, margin: 0 }}>
           You're spending money on ads.<br />
           You don't know what's working.<br />
-          <em style={{ fontStyle: "italic", color: "#86868b" }}>We fix that.</em>
+          <span style={{ color: "#86868b" }}>We fix that.</span>
         </h2>
         <p style={{ marginTop: 22, fontSize: 16, lineHeight: 1.6, color: AIC_SUB, maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>Wired into your site within 24 hours. Your first Monday Lowdown lands the morning after you go live.</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
           <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: AIC_INK, color: "#fff", fontSize: 14.5, fontWeight: 600, padding: "14px 30px", cursor: "pointer" }}>Book a demo</a>
           <a href="#pricing" style={{ display: "inline-block", textDecoration: "none", borderRadius: 100, background: "transparent", color: AIC_INK, fontSize: 14.5, fontWeight: 500, padding: "13px 26px", border: "1px solid #c7c7cc", cursor: "pointer" }}>See pricing</a>
         </div>
-        <p style={{ marginTop: 36, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", color: "#86868b" }}>NO ANNUAL CONTRACTS · CANCEL ANYTIME · PRIORITY SUPPORT</p>
+        <p style={{ marginTop: 36, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 400, letterSpacing: "0.14em", color: "#86868b" }}>NO ANNUAL CONTRACTS · CANCEL ANYTIME · PRIORITY SUPPORT</p>
       </div>
     </section>
   );
@@ -240,13 +230,13 @@ function LowdownFooter() {
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 48, justifyContent: "space-between" }}>
           <div style={{ maxWidth: 300 }}>
-            <p style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", margin: 0 }}>Lowdown</p>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff", margin: 0 }}>Lowdown</p>
             <p style={{ marginTop: 12, fontSize: 13, lineHeight: 1.65, color: "rgba(255,255,255,0.55)" }}>Business intelligence for owners who'd rather decide than dig through spreadsheets.</p>
           </div>
           <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
             {FOOT_COLS.map((c) => (
               <div key={c.h}>
-                <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", margin: 0 }}>{c.h}</p>
+                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 400, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", margin: 0 }}>{c.h}</p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 14 }}>
                   {c.links.map((l) => (
                     <a key={l} href="#" style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", textDecoration: "none" }}>{l}</a>
